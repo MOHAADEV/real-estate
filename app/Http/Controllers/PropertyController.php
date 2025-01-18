@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class PropertyController extends Controller
 {
@@ -28,24 +30,33 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
+        // التحقق من صحة البيانات
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
             'price' => 'required|numeric',
-            'location' => 'required',
+            'location' => 'required|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        $property = new Property($request->except('image'));
-
+    
+        $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('properties', 'public');
-            $property->image = $imagePath;
         }
-
-        $property->save();
-
-        return redirect()->route('properties.index')->with('success', 'Property created successfully.');
+    
+        Property::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'location' => $request->location,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'image' => $imagePath,
+        ]);
+    
+        return redirect()->route('properties.index')->with('success', 'Property added successfully.');
     }
 
     public function show(Property $property)

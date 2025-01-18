@@ -14,8 +14,7 @@
         @foreach($properties as $property)
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="{{ asset('storage/' . $property->image) }}" class="card-img-top" alt="{{ $property->title }}">
-                    <div class="card-body">
+                <img src="{{ asset('storage/' . $property->image) }}" class="card-img-top" alt="{{ $property->title }}">                    <div class="card-body">
                         <h5 class="card-title">{{ $property->title }}</h5>
                         <p class="card-text">{{ $property->description }}</p>
                         <p class="card-text"><strong>Price:</strong> ${{ number_format($property->price, 2) }}</p>

@@ -46,11 +46,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- روابط إضافية -->
-                        @auth
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                            </li>
-                        @endauth
+                      
 
                         <!-- Authentication Links -->
                         @guest

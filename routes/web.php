@@ -12,6 +12,4 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 //For admin routes
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::resource('properties', PropertyController::class)->except(['index', 'show']);
-});
+Route::resource('properties', PropertyController::class);
