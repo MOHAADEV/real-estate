@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $properties = Property::all();
+        $query = Property::query();
+    
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('location', 'like', "%$search%")
+                  ->orWhere('price', 'like', "%$search%");
+        }
+    
+        $properties = $query->get();
         return view('properties.index', compact('properties'));
     }
 
